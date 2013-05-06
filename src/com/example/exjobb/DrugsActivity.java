@@ -6,8 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -32,31 +34,20 @@ public class DrugsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drugs);
 		
-		DrugsTable db = new DrugsTable(this);
-		try {
-			String destPath = "/data/data" + getPackageName() + "/databases";
-			File f = new File(destPath);
-			if(!f.exists()) {
-				Toast.makeText(getBaseContext(), "File doesn't exist in DrugsDBAdapter!", Toast.LENGTH_LONG).show();
-				f.mkdirs();
-				f.createNewFile();
-				CopyDB(getBaseContext().getAssets().open("mydb"), new FileOutputStream(destPath + "/MyDB2"));
-			}
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		db.open();
-		Toast.makeText(getBaseContext(), "DrugsDBOpen!", Toast.LENGTH_LONG).show();
-		Cursor c = db.getAllDrugs();
-		if (c.moveToFirst()){
-			do {
-				DisplayDrug(c);
-			} while (c.moveToNext());
-		}
-		db.close();
+		Uri uri = Uri.parse("content://com.example.exjobb.MyContentProvider/drugs");
+		//String[] projection = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY};
+		//Cursor c = getContentResolver().query(uri, projection, null, null, null);
+		//if (c != null) {
+			//c.moveToFirst();
+			//Toast.makeText(getBaseContext(), "Första raden i tabellen", Toast.LENGTH_SHORT).show();
+			/*do{
+				Toast.makeText(this,
+				c.getString(c.getColumnIndex(DrugsTable.ROW_ID)) + ", " +
+				c.getString(c.getColumnIndex(DrugsTable.DRUG_NAME)) + ", " +
+				c.getString(c.getColumnIndex(DrugsTable.TYPE)),
+				Toast.LENGTH_SHORT).show();
+				} while (c.moveToNext());*/
+		//}
 		
 		drugs = getResources().getStringArray(R.array.drugs_array);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
