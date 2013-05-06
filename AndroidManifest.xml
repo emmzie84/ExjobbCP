@@ -49,6 +49,10 @@
             android:name="com.example.exjobb.PharmaciesActivity"
             android:label="@string/title_activity_pharmacies" >
         </activity>
+        <provider
+            android:name="com.example.exjobb.MyContentProvider"
+            android:authorities="com.example.exjobb.MyContentProvider" >
+        </provider>
     </application>
 
 </manifest>

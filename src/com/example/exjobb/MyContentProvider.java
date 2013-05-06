@@ -1,6 +1,6 @@
 package com.example.exjobb;
 
-import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import android.content.ContentProvider;
@@ -41,7 +41,7 @@ public class MyContentProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		//checkColumns(projection);
+		checkColumns(projection);
 		queryBuilder.setTables(DrugsTable.DATABASE_TABLE);
 		
 		int uriType = sUriMatcher.match(uri);
@@ -61,32 +61,23 @@ public class MyContentProvider extends ContentProvider {
 		return c;
 	}
 	
-	/*private void checkColumns(String[] projection) {
-		String[] available = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY, DrugsTable.ROW_ID};
-		if (projection != null) {
-			HashSet<String> requestedColumns = new HashSet<String>(Array.asList(projection));
-			Has
-		}		
-	}*/
-
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getType(Uri arg0) {
-		// TODO Auto-generated method stub
+	public String getType(Uri uri) {
 		return null;
 	}
-
+	
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
+	public int delete(Uri arg0, String arg1, String[] arg2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
@@ -94,4 +85,15 @@ public class MyContentProvider extends ContentProvider {
 		return 0;
 	}
 	
+	private void checkColumns(String[] projection) {
+		String[] available = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY, DrugsTable.ROW_ID};
+		if (projection != null) {
+			HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
+			HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
+			
+			if (!availableColumns.containsAll(requestedColumns)) {
+				throw new IllegalArgumentException("Unknown columns in projection");
+			}
+		}		
+	}
 }
