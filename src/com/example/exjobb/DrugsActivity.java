@@ -35,7 +35,7 @@ public class DrugsActivity extends Activity {
 		setContentView(R.layout.drugs);
 		
 		Uri uri = Uri.parse("content://com.example.exjobb.MyContentProvider/drugs");
-		//String[] projection = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY};
+		String[] projection = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY};
 		//Cursor c = getContentResolver().query(uri, projection, null, null, null);
 		//if (c != null) {
 			//c.moveToFirst();
