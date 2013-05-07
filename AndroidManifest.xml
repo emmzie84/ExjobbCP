@@ -51,7 +51,10 @@
         </activity>
         <provider
             android:name="com.example.exjobb.MyContentProvider"
-            android:authorities="com.example.exjobb.MyContentProvider" >
+            android:authorities="com.example.exjobb.MyContentProvider" 
+            android:multiprocess="true"
+            android:permission="com.example.exjobb.permission.ACCESS_PROVIDER"
+            android:exported="true" >
         </provider>
     </application>
 

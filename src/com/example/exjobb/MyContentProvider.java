@@ -19,11 +19,11 @@ public class MyContentProvider extends ContentProvider {
 	private static final int DRUG_ID = 20;
 	
 	private static final String PROVIDER_NAME = "com.example.exjobb.mycontentprovider";
-	private static final String BASE_PATH = "drugs";
+	private static final String BASE_PATH = "mydb"; //eller drugs?
 	
 	public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/" + BASE_PATH);
-	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + BASE_PATH;
-	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + BASE_PATH;
+	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/drugs";
+	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/drug";
 	
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
@@ -67,19 +67,19 @@ public class MyContentProvider extends ContentProvider {
 	}
 	
 	@Override
-	public Uri insert(Uri uri, ContentValues values) {
+	public Uri insert(Uri uri, ContentValues values) { //Behövs ej då jag bara ska hämta data
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
+	public int delete(Uri arg0, String arg1, String[] arg2) { //Behövs ej då jag bara ska hämta data
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
+	public int update(Uri uri, ContentValues values, String selection, //Behövs ej då jag bara ska hämta data
 			String[] selectionArgs) {
 		// TODO Auto-generated method stub
 		return 0;

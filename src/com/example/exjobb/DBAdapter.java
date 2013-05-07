@@ -10,13 +10,13 @@ public class DBAdapter {
 	public static final String DATABASE_NAME = "mydb";
 	public static final int DATABASE_VERSION = 1;
 	
-	/*private static final String CREATE_TABLE_DRUGS = "create table drugs (_id integer primary key autoincrement, "
-			+ DrugsTable.DRUG_NAME + " TEXT,"
-			+ DrugsTable.TYPE + " TEXT,"
-			+ DrugsTable.POTENCY + " TEXT,"
-			+ DrugsTable.SIZE + " TEXT,"
-			+ DrugsTable.PREFERENTIAL_PRICE + " TEXT,"
-			+ DrugsTable.PRESCRIPTION_ONLY + " TEXT" + ");";*/
+	private static final String CREATE_TABLE_DRUGS = "create table " + DrugsTable.DATABASE_TABLE + "(" + DrugsTable.ROW_ID + " integer primary key autoincrement, "
+			+ DrugsTable.DRUG_NAME + " text not null,"
+			+ DrugsTable.TYPE + " text not null,"
+			+ DrugsTable.POTENCY + " text not null,"
+			+ DrugsTable.SIZE + " text not null,"
+			+ DrugsTable.PREFERENTIAL_PRICE + " text not null,"
+			+ DrugsTable.PRESCRIPTION_ONLY + " text not null" + ");";
 	
 	/*private static final String CREATE_TABLE_PHARMACIES = "create table pharmacies (_id integer primary key autoincrement, "
 			+ PharmaciesDBAdapter.CHAIN_NAME + " TEXT,"
@@ -40,16 +40,43 @@ public class DBAdapter {
 			+ StockDBAdapter.NUMBER + " INTEGER,"
 			+ StockDBAdapter.PRICE + " INTEGER" + ");";*/
 	
-	public void onCreate(SQLiteDatabase db) {
-		//db.execSQL(CREATE_TABLE_DRUGS);
-		//db.execSQL(CREATE_TABLE_PHARMACIES);
-		//db.execSQL(CREATE_TABLE_STOCK);
+	private final Context context;
+	private DatabaseHelper DBHelper;
+	private SQLiteDatabase db;
+	
+	public DBAdapter(Context ctx) {
+		this.context = ctx;
+		this.DBHelper = new DatabaseHelper(this.context);
 	}
+	
+	public static class DatabaseHelper extends SQLiteOpenHelper {
+		DatabaseHelper(Context context) {
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			db.execSQL(CREATE_TABLE_DRUGS);
+			//db.execSQL(CREATE_TABLE_PHARMACIES);
+			//db.execSQL(CREATE_TABLE_STOCK);
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.w(DBAdapter.class.getName(), "Upgrading database from version " + oldVersion + "to " + newVersion + ", which will destroy all old data");
+			db.execSQL("DROP TABLE IF EXISTS drugs");
+			onCreate(db);
+		}
 		
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.w(DBAdapter.class.getName(), "Upgrading database from version " + oldVersion + "to " + newVersion + ", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXISTS drugs");
-		onCreate(db);
+	}
+	
+	public DBAdapter open() throws SQLException {
+		this.db = this.DBHelper.getWritableDatabase();
+		return this;
+	}
+	
+	public void close() {
+		this.DBHelper.close();
 	}
 		
 }

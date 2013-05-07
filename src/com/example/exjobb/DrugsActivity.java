@@ -34,20 +34,23 @@ public class DrugsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drugs);
 		
-		Uri uri = Uri.parse("content://com.example.exjobb.MyContentProvider/drugs");
-		String[] projection = { DrugsTable.DRUG_NAME, DrugsTable.TYPE, DrugsTable.POTENCY, DrugsTable.SIZE, DrugsTable.PREFERENTIAL_PRICE, DrugsTable.PRESCRIPTION_ONLY};
-		//Cursor c = getContentResolver().query(uri, projection, null, null, null);
-		//if (c != null) {
-			//c.moveToFirst();
-			//Toast.makeText(getBaseContext(), "Första raden i tabellen", Toast.LENGTH_SHORT).show();
-			/*do{
+		Uri uri = Uri.parse("content://com.example.exjobb.myContentProvider/drugs");
+		Cursor c = getContentResolver().query(uri, null, null, null, null);
+		
+		if (c != null) {
+			c.moveToFirst();
+			Toast.makeText(getBaseContext(), "Första raden i tabellen", Toast.LENGTH_SHORT).show();
+			do{
 				Toast.makeText(this,
 				c.getString(c.getColumnIndex(DrugsTable.ROW_ID)) + ", " +
 				c.getString(c.getColumnIndex(DrugsTable.DRUG_NAME)) + ", " +
 				c.getString(c.getColumnIndex(DrugsTable.TYPE)),
 				Toast.LENGTH_SHORT).show();
-				} while (c.moveToNext());*/
-		//}
+				} while (c.moveToNext());
+		}
+		else {
+			Toast.makeText(getBaseContext(), "C är tom!", Toast.LENGTH_SHORT).show();
+		}
 		
 		drugs = getResources().getStringArray(R.array.drugs_array);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
